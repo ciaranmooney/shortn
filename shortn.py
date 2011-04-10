@@ -35,7 +35,6 @@ class index:
             return render.formtest(form)
 
         else:
-          
           database[hashlib.sha224(form.d.URL).hexdigest()[:8]] = form.d.URL
           return database
 
