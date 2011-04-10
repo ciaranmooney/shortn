@@ -3,6 +3,8 @@
 import web
 from web import form
 
+import hashlib
+
 render = web.template.render("templates/")
 urls = ( "/", "index")
 
@@ -26,7 +28,9 @@ class index:
             return render.formtest(form)
 
         else:
-          return "Greeet"
+          
+          database[hashlib.sha224(form.d.URL).hexdigest()] = form.d.URL
+          return "Greeet", database
 
 if __name__ == "__main__":
     web.internalerror = web.debugerror
