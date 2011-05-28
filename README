@@ -3,9 +3,14 @@ Shortn, A Python URL shortner
 =======
 
 Prerequisits
-==============
+=======
 
 webpy
+
+Status
+=======
+
+Working, but not useful.
 
 Authors
 =======
