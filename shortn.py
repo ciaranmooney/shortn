@@ -4,18 +4,21 @@ import web
 from web import form
 
 import hashlib
+import time
+
+temp = 30 # Number of seconds to keep temporary URLs
 
 render = web.template.render("templates/")
 
 urls = ( "/(.*)", "index")
 
 app = web.application(urls, globals())
-
+ 
 database = {}
 
 myform = form.Form(
     form.Textbox("URL", form.notnull),
-    form.Checkbox("Temporary?")
+    form.Checkbox("Temporary?", value='something')
     )
 
 class index:
@@ -35,8 +38,11 @@ class index:
             return render.formtest(form)
 
         else:
-          database[hashlib.sha224(form.d.URL).hexdigest()[:8]] = form.d.URL
-          return database
+          timestamp = time.time()
+          database[hashlib.sha224(form.d.URL).hexdigest()[:8]] = (form.d.URL,\
+          form["Temporary?"].checked, timestamp)
+          print form["Temporary?"].checked, form.d.URL
+          return "Current Datbase", database
 
 if __name__ == "__main__":
     web.internalerror = web.debugerror
