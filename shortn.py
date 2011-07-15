@@ -5,6 +5,10 @@ from web import form
 
 import hashlib
 import time
+# need to figure out a way of handling file commits. Having a flat file probably
+# wont work for multiple uses, as it has to be written and closed in each loop.
+# Will probably have to farm that out to a sub process too, or get conformation
+# back that it's actually been commited, then finish?
 
 temp = 30 # Number of seconds to keep temporary URLs
 
@@ -44,10 +48,10 @@ class index:
           form["Temporary?"].checked, timestamp)
           lock = open("lock", "w") # should probably include a random number
           print(form["Temporary?"].checked, form.d.URL)
-          line = "%URL, %check, %time" % {"URL":form.d.URL, \
+          line = "%(URL)s, %(check)s, %(time)f" % {"URL":form.d.URL, \
           "check":form["Temporary?"].checked, "time":timestamp}
-          print(line)
           links.write(line)
+          links.close()
           return "Current Datbase", database
           lock.close()
 
