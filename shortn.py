@@ -9,7 +9,7 @@ import time
 temp = 30 # Number of seconds to keep temporary URLs
 
 render = web.template.render("templates/")
-links = open("links", "rw")
+links = open("links", "w")
 
 urls = ( "/(.*)", "index")
 
@@ -42,8 +42,14 @@ class index:
           timestamp = time.time()
           database[hashlib.sha224(form.d.URL).hexdigest()[:8]] = (form.d.URL,\
           form["Temporary?"].checked, timestamp)
-          print form["Temporary?"].checked, form.d.URL
+          lock = open("lock", "w") # should probably include a random number
+          print(form["Temporary?"].checked, form.d.URL)
+          line = "%URL, %check, %time" % {"URL":form.d.URL, \
+          "check":form["Temporary?"].checked, "time":timestamp}
+          print(line)
+          links.write(line)
           return "Current Datbase", database
+          lock.close()
 
 if __name__ == "__main__":
     web.internalerror = web.debugerror
