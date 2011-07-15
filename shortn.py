@@ -9,6 +9,7 @@ import time
 temp = 30 # Number of seconds to keep temporary URLs
 
 render = web.template.render("templates/")
+links = open("links", "rw")
 
 urls = ( "/(.*)", "index")
 
@@ -26,7 +27,7 @@ class index:
         print name
         
         if name in database.keys(): 
-            return web.seeother(database[name])
+            return web.seeother(database[name][0])
         else:
             form = myform()
             return render.formtest(form)
